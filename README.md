@@ -1,4 +1,11 @@
-# 일정 관리 앱 API 명세서
+# schedule-management 프로젝트
+
+## 목차
+- [일정 관리 앱 API 명세서](#일정-관리-앱-api-명세서)
+- [ERD](#ERD)
+- [Query (초기 단계 : 작성자의 이름으로만 판별)](#query-초기-단계--작성자의-이름으로만-판별)
+
+## 일정 관리 앱 API 명세서
 
 ### 공통 설정
 
@@ -281,11 +288,11 @@
 
 - 작성자 등록 구현 전
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/60dc1423-b607-4563-9448-df0b6a252b51/c9ab1e8b-ad70-4cc5-8dfd-cdd4b97cab90/image.png)
+![image](https://github.com/user-attachments/assets/025e1de5-1b62-4a37-8fb0-490a98c2b6d4)
 
 - 작성자 등록 구현 후
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/60dc1423-b607-4563-9448-df0b6a252b51/9dbb2342-b3ae-46a1-aad5-cefe27a292ec/image.png)
+![image (1)](https://github.com/user-attachments/assets/3b2f0a91-d63e-43c6-b42b-ce38401acfc3)
 
 ---
 
