@@ -77,6 +77,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             args.add(authorName);
         }
 
+        sql.append(" ORDER BY updated_at DESC");
+
         return jdbcTemplate.query(sql.toString(), scheduleRowMapper(), args.toArray());
     }
 
