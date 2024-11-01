@@ -1,13 +1,20 @@
 package com.example.schedulemanagement.entity;
 
+import java.sql.Timestamp;
 import lombok.Getter;
 
 @Getter
 public class Schedule {
     private Long id;
-    private String tasks;
-    private String author_name;
+    private String task;
+    private String authorName;
     private String password;
-    private String created_at;
-    private String updated_at;
+    private Timestamp created_at;
+    private Timestamp updated_at;
+
+    public Schedule(String task, String authorName, String password) {
+        this.task = task;
+        this.authorName = authorName;
+        this.password = password;
+    }
 }

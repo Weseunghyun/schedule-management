@@ -1,5 +1,22 @@
 package com.example.schedulemanagement.Service;
 
-public class ScheduleServiceImpl implements ScheduleService {
+import com.example.schedulemanagement.dto.ScheduleRequestDto;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.entity.Schedule;
+import com.example.schedulemanagement.repository.ScheduleRepository;
+import org.springframework.stereotype.Service;
 
+@Service
+public class ScheduleServiceImpl implements ScheduleService {
+    private final ScheduleRepository scheduleRepository;
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository) {
+        this.scheduleRepository = scheduleRepository;
+    }
+
+    @Override
+    public ScheduleResponseDto addSchedule(String password, ScheduleRequestDto dto) {
+        Schedule schedule = new Schedule(dto.getTask(), dto.getAuthorName(), password);
+
+        return scheduleRepository.addSchedule(password, schedule);
+    }
 }

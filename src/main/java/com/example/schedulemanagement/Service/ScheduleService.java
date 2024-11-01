@@ -1,5 +1,8 @@
 package com.example.schedulemanagement.Service;
 
-public interface ScheduleService {
+import com.example.schedulemanagement.dto.ScheduleRequestDto;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
 
+public interface ScheduleService {
+    ScheduleResponseDto addSchedule(String password, ScheduleRequestDto scheduleRequestDto);
 }
