@@ -2,6 +2,8 @@ package com.example.schedulemanagement.repository;
 
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +53,31 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         }
 
     }
+
+    @Override
+    public List<ScheduleResponseDto> findAllSchedules(String updatedAt, String authorName) {
+        //동적 쿼리를 구현해야함.
+        StringBuilder sql = new StringBuilder("SELECT * FROM schedules");
+        List<String> args = new ArrayList<>();
+
+        if (updatedAt != null) {
+            sql.append(" WHERE DATE(updated_at) = ?");
+            args.add(updatedAt);
+        }
+
+        if (authorName != null) {
+            if (updatedAt != null) {
+                sql.append(" AND");
+            } else {
+                sql.append(" WHERE");
+            }
+            sql.append(" author_name = ?");
+            args.add(authorName);
+        }
+
+        return jdbcTemplate.query(sql.toString(), scheduleRowMapper(),  args.toArray());
+    }
+
 
     // RowMapper 메서드로 분리
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {

@@ -9,8 +9,8 @@ public class Schedule {
     private String task;
     private String authorName;
     private String password;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public Schedule(String task, String authorName, String password) {
         this.task = task;
