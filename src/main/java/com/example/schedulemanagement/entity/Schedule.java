@@ -1,6 +1,7 @@
 package com.example.schedulemanagement.entity;
 
 import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
@@ -16,5 +17,13 @@ public class Schedule {
         this.task = task;
         this.authorName = authorName;
         this.password = password;
+    }
+
+    public Schedule(long schedulesId, String task, String authorName, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = schedulesId;
+        this.task = task;
+        this.authorName = authorName;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

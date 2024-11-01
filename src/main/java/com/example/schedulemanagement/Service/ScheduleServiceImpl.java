@@ -26,4 +26,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleResponseDto> findAllSchedules(String updatedAt, String authorName) {
         return scheduleRepository.findAllSchedules(updatedAt,authorName);
     }
+
+    @Override
+    public ScheduleResponseDto getScheduleById(Long scheduleId) {
+        Schedule schedule =  scheduleRepository.getScheduleById(scheduleId);
+        return new ScheduleResponseDto(schedule);
+    }
 }

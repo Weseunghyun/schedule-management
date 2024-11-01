@@ -3,7 +3,6 @@ package com.example.schedulemanagement.controller;
 import com.example.schedulemanagement.Service.ScheduleService;
 import com.example.schedulemanagement.dto.ScheduleRequestDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
-import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +33,15 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> getSchedules(
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedules(
         @RequestParam(required = false) String updatedAt,
         @RequestParam(required = false) String authorName
     ){
         return new ResponseEntity<>(scheduleService.findAllSchedules(updatedAt, authorName), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long id){
+        return new ResponseEntity<>(scheduleService.getScheduleById(id), HttpStatus.OK);
     }
 }

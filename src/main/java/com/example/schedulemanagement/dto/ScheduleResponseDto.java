@@ -1,5 +1,6 @@
 package com.example.schedulemanagement.dto;
 
+import com.example.schedulemanagement.entity.Schedule;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,4 +13,12 @@ public class ScheduleResponseDto {
     private String authorName;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
+    public ScheduleResponseDto(Schedule schedule) {
+        this.id = schedule.getId();
+        this.task = schedule.getTask();
+        this.authorName = schedule.getAuthorName();
+        this.createdAt = schedule.getCreatedAt();
+        this.updatedAt = schedule.getUpdatedAt();
+    }
 }

@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Repository
@@ -78,10 +80,26 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return jdbcTemplate.query(sql.toString(), scheduleRowMapper(),  args.toArray());
     }
 
+    @Override
+    public Schedule getScheduleById(Long scheduleId) {
+        List<Schedule> schedules = jdbcTemplate.query("SELECT * FROM schedules WHERE schedules_id = ?", scheduleRowMapperV2(), scheduleId);
+        return schedules.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
 
     // RowMapper 메서드로 분리
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
         return (rs, rowNum) -> new ScheduleResponseDto(
+            rs.getLong("schedules_id"),
+            rs.getString("task"),
+            rs.getString("author_name"),
+            rs.getTimestamp("created_at"),
+            rs.getTimestamp("updated_at")
+        );
+    }
+
+    private RowMapper<Schedule> scheduleRowMapperV2(){
+        return (rs, rowNum) -> new Schedule(
             rs.getLong("schedules_id"),
             rs.getString("task"),
             rs.getString("author_name"),

@@ -7,4 +7,5 @@ import java.util.List;
 public interface ScheduleRepository {
     ScheduleResponseDto addSchedule(String password, Schedule schedule);
     List<ScheduleResponseDto> findAllSchedules(String updatedAt, String authorName);
+    Schedule getScheduleById(Long scheduleId);
 }
