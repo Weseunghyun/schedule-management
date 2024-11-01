@@ -6,6 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class Schedule {
+
     private Long id;
     private String task;
     private String authorName;
@@ -19,7 +20,8 @@ public class Schedule {
         this.password = password;
     }
 
-    public Schedule(long schedulesId, String task, String authorName, Timestamp createdAt, Timestamp updatedAt) {
+    public Schedule(long schedulesId, String task, String authorName, Timestamp createdAt,
+        Timestamp updatedAt) {
         this.id = schedulesId;
         this.task = task;
         this.authorName = authorName;

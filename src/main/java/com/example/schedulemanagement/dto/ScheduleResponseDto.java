@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ScheduleResponseDto {
+
     private Long id;
     private String task;
     private String authorName;

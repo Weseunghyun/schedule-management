@@ -29,9 +29,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     @Override
     public ScheduleResponseDto addSchedule(String password, Schedule schedule) {
         // 데이터 삽입
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(this.jdbcTemplate)
-            .withTableName("schedules")
-            .usingGeneratedKeyColumns("schedules_id")
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(this.jdbcTemplate).withTableName(
+                "schedules").usingGeneratedKeyColumns("schedules_id")
             .usingColumns("task", "author_name", "password");
 
         Map<String, Object> parameters = new HashMap<>();
@@ -39,19 +38,20 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         parameters.put("author_name", schedule.getAuthorName());
         parameters.put("password", password);
 
-
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         long scheduleId = key.longValue();
 
         // 삽입된 데이터를 다시 조회하여 created_at과 updated_at 가져오기
         String query = "SELECT schedules_id, task, author_name, created_at, updated_at FROM Schedules WHERE schedules_id = ?";
-        List<ScheduleResponseDto> scheduleResponseDtos = jdbcTemplate.query(query, scheduleRowMapper(), scheduleId);
+        List<ScheduleResponseDto> scheduleResponseDtos = jdbcTemplate.query(query,
+            scheduleRowMapper(), scheduleId);
 
         // 조회 결과가 존재할 경우 첫 번째 ScheduleResponseDto 반환
         if (!scheduleResponseDtos.isEmpty()) {
             return scheduleResponseDtos.get(0);
         } else {
-            throw new DataRetrievalFailureException("Failed to retrieve schedule with id = " + scheduleId);
+            throw new DataRetrievalFailureException(
+                "Failed to retrieve schedule with id = " + scheduleId);
         }
 
     }
@@ -77,35 +77,41 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             args.add(authorName);
         }
 
-        return jdbcTemplate.query(sql.toString(), scheduleRowMapper(),  args.toArray());
+        return jdbcTemplate.query(sql.toString(), scheduleRowMapper(), args.toArray());
     }
 
     @Override
     public Schedule getScheduleById(Long scheduleId) {
-        List<Schedule> schedules = jdbcTemplate.query("SELECT * FROM schedules WHERE schedules_id = ?", scheduleRowMapperV2(), scheduleId);
-        return schedules.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        List<Schedule> schedules = jdbcTemplate.query(
+            "SELECT * FROM schedules WHERE schedules_id = ?", scheduleRowMapperV2(), scheduleId);
+        return schedules.stream().findAny()
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    public int updateSchedule(Long scheduleId, String task, String authorName) {
+        return jdbcTemplate.update(
+            "UPDATE schedules SET task = ?, author_name = ? where schedules_id = ? ", task,
+            authorName, scheduleId);
+    }
+
+    @Override
+    public int deleteSchedule(Long scheduleId) {
+        return jdbcTemplate.update("DELETE FROM schedules WHERE schedules_id = ?", scheduleId);
     }
 
 
     // RowMapper 메서드로 분리
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
-        return (rs, rowNum) -> new ScheduleResponseDto(
-            rs.getLong("schedules_id"),
-            rs.getString("task"),
-            rs.getString("author_name"),
-            rs.getTimestamp("created_at"),
-            rs.getTimestamp("updated_at")
-        );
+        return (rs, rowNum) -> new ScheduleResponseDto(rs.getLong("schedules_id"),
+            rs.getString("task"), rs.getString("author_name"), rs.getTimestamp("created_at"),
+            rs.getTimestamp("updated_at"));
     }
 
-    private RowMapper<Schedule> scheduleRowMapperV2(){
-        return (rs, rowNum) -> new Schedule(
-            rs.getLong("schedules_id"),
-            rs.getString("task"),
-            rs.getString("author_name"),
-            rs.getTimestamp("created_at"),
-            rs.getTimestamp("updated_at")
-        );
+    private RowMapper<Schedule> scheduleRowMapperV2() {
+        return (rs, rowNum) -> new Schedule(rs.getLong("schedules_id"), rs.getString("task"),
+            rs.getString("author_name"), rs.getTimestamp("created_at"),
+            rs.getTimestamp("updated_at"));
     }
 }
 
