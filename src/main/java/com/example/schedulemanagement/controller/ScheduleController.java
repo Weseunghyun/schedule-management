@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/schedules")
@@ -44,8 +45,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long scheduleId) {
-        return new ResponseEntity<>(scheduleService.getScheduleById(scheduleId), HttpStatus.OK);
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long scheduleId) {
+        return new ResponseEntity<>(scheduleService.findScheduleById(scheduleId), HttpStatus.OK);
     }
 
     @PutMapping("/{scheduleId}")
@@ -54,6 +55,10 @@ public class ScheduleController {
         @RequestBody ScheduleRequestDto dto,
         @RequestHeader("Authorization") String password
     ) {
+        if (dto.getTask() == null || dto.getAuthorName() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "The task and authorName are required values");
+        }
         return new ResponseEntity<>(scheduleService.updateSchedule(scheduleId, dto.getTask(), dto.getAuthorName(), password), HttpStatus.OK);
     }
 

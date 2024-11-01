@@ -4,10 +4,8 @@ import com.example.schedulemanagement.dto.ScheduleRequestDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import com.example.schedulemanagement.repository.ScheduleRepository;
-import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,24 +31,21 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleResponseDto getScheduleById(Long scheduleId) {
-        Schedule schedule = scheduleRepository.getScheduleById(scheduleId);
+    public ScheduleResponseDto findScheduleById(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findScheduleById(scheduleId);
         return new ScheduleResponseDto(schedule);
     }
 
     @Override
     public ScheduleResponseDto updateSchedule(Long scheduleId,
         String task, String authorName, String password) {
-        if (task == null || authorName == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "The task and authorName are required values");
-        }
+
         int updatedRow = scheduleRepository.updateSchedule(scheduleId, task, authorName, password);
         if (updatedRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
         }
 
-        Schedule schedule = scheduleRepository.getScheduleById(scheduleId);
+        Schedule schedule = scheduleRepository.findScheduleById(scheduleId);
 
         return new ScheduleResponseDto(schedule);
     }

@@ -82,7 +82,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public Schedule getScheduleById(Long scheduleId) {
+    public Schedule findScheduleById(Long scheduleId) {
         List<Schedule> schedules = jdbcTemplate.query(
             "SELECT * FROM schedules WHERE schedules_id = ?", scheduleRowMapperV2(), scheduleId);
         return schedules.stream().findAny()
