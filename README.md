@@ -10,7 +10,6 @@
 ### 공통 설정
 
 - 모든 요청 및 응답 데이터는 JSON 형식
-- 날짜 및 시간은 `YYYY-MM-DD HH:mm:ss` 형식
 - 보안을 위해 비밀번호는 요청 헤더 `Authorization`에 포함하여 전달
 
 ---
@@ -25,8 +24,8 @@
         
         ```json
         {
-            "task": "할일 내용",
-            "authorName": "작성자명"
+            "task": "인사하기",
+            "authorName": "어린이"
         }
         ```
         
@@ -40,11 +39,11 @@
         
         ```json
         {
-            "id": "게시글 고유 식별자",
-            "task": "할일 내용",
-            "authorName": "작성자명",
-            "createdAt": "YYYY-MM-DD HH:mm:ss",
-            "updatedAt": "YYYY-MM-DD HH:mm:ss"
+            "id": 4,
+            "task": "인사하기",
+            "authorName": "어린이",
+            "createdAt": "2024-11-01T07:05:29.000+00:00",
+            "updatedAt": "2024-11-01T07:05:29.000+00:00"
         }
         ```
         
@@ -71,6 +70,14 @@
     | --- | --- | --- | --- | --- |
     | 1 | updatedDate | String | 수정 일시 | O |
     | 2 | authorName | String | 작성자명 | O |
+    - 예시
+
+```
+http://localhost:8080/api/schedules?updatedAt=2024-11-01&authorName=티니핑
+http://localhost:8080/api/schedules?authorName=티니핑
+http://localhost:8080/api/schedules?updatedAt=2024-11-01
+```
+
 - **응답**
     - **Status Code**: 200 OK
     - **Body**:
@@ -78,13 +85,26 @@
         ```json
         [
             {
-                "id": "게시글 고유 식별자",
+                "id": 4,
+                "task": "인사하기",
+                "authorName": "어린이",
+                "createdAt": "2024-11-01T07:05:29.000+00:00",
+                "updatedAt": "2024-11-01T07:05:29.000+00:00"
+            },
+            {
+                "id": 2,
+                "task": "양치하기",
+                "authorName": "뽀로로",
+                "createdAt": "2024-11-01T05:43:46.000+00:00",
+                "updatedAt": "2024-11-01T05:43:46.000+00:00"
+            },
+            {
+                "id": 1,
                 "task": "할일 내용",
                 "authorName": "작성자명",
-                "createdAt": "YYYY-MM-DD HH:mm:ss",
-                "updatedAt": "YYYY-MM-DD HH:mm:ss"
-            },
-            ...
+                "createdAt": "2024-11-01T05:36:49.000+00:00",
+                "updatedAt": "2024-11-01T05:36:49.000+00:00"
+            }
         ]
         ```
         
@@ -102,17 +122,23 @@
 
 - **요청**
     - **Path Variable**: schedulesId - 조회할 일정의 고유 ID
+    - 예시
+    
+    ```
+    http://localhost:8080/api/schedules/3
+    ```
+    
 - **응답**
     - **Status Code**: 200 OK
     - **Body**:
         
         ```json
         {
-            "id": "게시글 고유 식별자",
-            "task": "할일 내용",
-            "authorName": "작성자명",
-            "createdAt": "YYYY-MM-DD HH:mm:ss",
-            "updatedAt": "YYYY-MM-DD HH:mm:ss"
+            "id": 3,
+            "task": "세수하기",
+            "authorName": "티니핑",
+            "createdAt": "2024-11-01T05:48:25.000+00:00",
+            "updatedAt": "2024-11-02T07:00:00.000+00:00"
         }
         ```
         
@@ -123,8 +149,7 @@
         | 3 | authorName | String | 작성자명 | X |
         | 4 | createdAt | String | 최초 작성 일시 | X |
         | 5 | updatedAt | String | 수정 일시 | X |
-
----
+    
 
 ### 4. 일정 수정 (PUT /api/schedules/{schedulesId})
 
@@ -137,10 +162,9 @@
         
         ```json
         {
-            "task": "수정된 할일 내용",
-            "authorName": "수정된 작성자명"
+            "task": "수정된 할일",
+            "authorName": "수정된 작성자"
         }
-        
         ```
         
         | # | 이름 | 타입 | 설명 | Nullable |
@@ -153,11 +177,11 @@
         
         ```json
         {
-            "id": "게시글 고유 식별자",
-            "task": "수정된 할일 내용",
-            "authorName": "수정된 작성자명",
-            "createdAt": "YYYY-MM-DD HH:mm:ss",
-            "updatedAt": "YYYY-MM-DD HH:mm:ss"
+            "id": 3,
+            "task": "수정된 할일",
+            "authorName": "수정된 작성자",
+            "createdAt": "2024-11-01T05:48:25.000+00:00",
+            "updatedAt": "2024-11-01T08:25:12.000+00:00"
         }
         ```
         
@@ -179,10 +203,7 @@
     - **Body**:
         
         ```json
-        {
-            "message": "일정이 삭제되었습니다."
-        }
-        
+     
         ```
         
 
