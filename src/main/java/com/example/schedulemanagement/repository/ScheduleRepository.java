@@ -13,7 +13,7 @@ public interface ScheduleRepository {
 
     Schedule getScheduleById(Long scheduleId);
 
-    int updateSchedule(Long scheduleId, String task, String authorName);
+    int updateSchedule(Long scheduleId, String task, String authorName, String password);
 
-    int deleteSchedule(Long scheduleId);
+    int deleteSchedule(Long scheduleId, String password);
 }

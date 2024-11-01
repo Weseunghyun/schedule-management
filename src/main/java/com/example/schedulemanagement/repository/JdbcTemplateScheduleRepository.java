@@ -50,8 +50,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         if (!scheduleResponseDtos.isEmpty()) {
             return scheduleResponseDtos.get(0);
         } else {
-            throw new DataRetrievalFailureException(
-                "Failed to retrieve schedule with id = " + scheduleId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "schedule not found");
         }
 
     }
@@ -91,15 +90,22 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public int updateSchedule(Long scheduleId, String task, String authorName) {
-        return jdbcTemplate.update(
-            "UPDATE schedules SET task = ?, author_name = ? where schedules_id = ? ", task,
-            authorName, scheduleId);
+    public int updateSchedule(Long scheduleId, String task, String authorName, String password) {
+        if (validatePassword(scheduleId, password))  {
+            return jdbcTemplate.update("UPDATE schedules SET task = ?, author_name = ? where schedules_id = ?", task,
+                authorName, scheduleId);
+        } else{
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "password does not match");
+        }
     }
 
     @Override
-    public int deleteSchedule(Long scheduleId) {
-        return jdbcTemplate.update("DELETE FROM schedules WHERE schedules_id = ?", scheduleId);
+    public int deleteSchedule(Long scheduleId, String password) {
+        if (validatePassword(scheduleId, password))  {
+            return jdbcTemplate.update("DELETE FROM schedules WHERE schedules_id = ?", scheduleId);
+        } else{
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "password does not match");
+        }
     }
 
 
@@ -114,6 +120,29 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return (rs, rowNum) -> new Schedule(rs.getLong("schedules_id"), rs.getString("task"),
             rs.getString("author_name"), rs.getTimestamp("created_at"),
             rs.getTimestamp("updated_at"));
+    }
+
+    private RowMapper<Schedule> scheduleRowMapperV3() {
+        return (rs, rowNum) -> new Schedule(rs.getLong("schedules_id"), rs.getString("task"),
+            rs.getString("author_name"), rs.getString("password"), rs.getTimestamp("created_at"),
+            rs.getTimestamp("updated_at"));
+    }
+
+    private boolean validatePassword(Long scheduleId, String password) {
+        List<Schedule> scheduleList = jdbcTemplate.query(
+            "SELECT * FROM schedules WHERE schedules_id = ?",
+            scheduleRowMapperV3(), scheduleId);
+
+        if (!scheduleList.isEmpty()) {
+            Schedule schedule = scheduleList.get(0);
+            if (schedule.getPassword().equals(password)) {
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "schedule not found");
+        }
     }
 }
 

@@ -51,14 +51,18 @@ public class ScheduleController {
     @PutMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
         @PathVariable Long scheduleId,
-        @RequestBody ScheduleRequestDto dto
+        @RequestBody ScheduleRequestDto dto,
+        @RequestHeader("Authorization") String password
     ) {
-        return new ResponseEntity<>(scheduleService.updateSchedule(scheduleId, dto.getTask(), dto.getAuthorName()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(scheduleId, dto.getTask(), dto.getAuthorName(), password), HttpStatus.OK);
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
-        scheduleService.deleteSchedule(scheduleId);
+    public ResponseEntity<Void> deleteSchedule(
+        @PathVariable Long scheduleId,
+        @RequestHeader("Authorization") String password
+    ) {
+        scheduleService.deleteSchedule(scheduleId, password);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

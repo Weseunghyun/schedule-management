@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class Schedule {
 
     private Long id;
@@ -28,4 +29,5 @@ public class Schedule {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

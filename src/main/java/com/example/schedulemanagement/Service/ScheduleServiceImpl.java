@@ -40,12 +40,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleResponseDto updateSchedule(Long scheduleId,
-        String task, String authorName) {
+        String task, String authorName, String password) {
         if (task == null || authorName == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 "The task and authorName are required values");
         }
-        int updatedRow = scheduleRepository.updateSchedule(scheduleId, task, authorName);
+        int updatedRow = scheduleRepository.updateSchedule(scheduleId, task, authorName, password);
         if (updatedRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
         }
@@ -56,8 +56,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void deleteSchedule(Long scheduleId) {
-        int deletedRow = scheduleRepository.deleteSchedule(scheduleId);
+    public void deleteSchedule(Long scheduleId, String password) {
+        int deletedRow = scheduleRepository.deleteSchedule(scheduleId, password);
         if (deletedRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
         }
