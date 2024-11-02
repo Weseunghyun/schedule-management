@@ -1,13 +1,11 @@
-package com.example.schedulemanagement.repository;
+package com.example.schedulemanagement.repository.schedule;
 
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

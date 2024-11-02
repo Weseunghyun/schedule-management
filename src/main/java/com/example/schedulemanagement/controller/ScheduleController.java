@@ -1,8 +1,8 @@
 package com.example.schedulemanagement.controller;
 
-import com.example.schedulemanagement.Service.ScheduleService;
-import com.example.schedulemanagement.dto.ScheduleRequestDto;
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.Service.schedule.ScheduleService;
+import com.example.schedulemanagement.dto.schedule.ScheduleRequestDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleResponseDto;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

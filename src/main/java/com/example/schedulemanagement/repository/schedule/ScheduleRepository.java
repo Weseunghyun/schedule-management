@@ -1,6 +1,6 @@
-package com.example.schedulemanagement.repository;
+package com.example.schedulemanagement.repository.schedule;
 
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import java.util.List;
 

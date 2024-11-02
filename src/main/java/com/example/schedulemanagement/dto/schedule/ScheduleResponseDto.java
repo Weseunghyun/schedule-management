@@ -1,4 +1,4 @@
-package com.example.schedulemanagement.dto;
+package com.example.schedulemanagement.dto.schedule;
 
 import com.example.schedulemanagement.entity.Schedule;
 import java.sql.Timestamp;

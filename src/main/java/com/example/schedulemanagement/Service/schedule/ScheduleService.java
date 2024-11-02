@@ -1,7 +1,7 @@
-package com.example.schedulemanagement.Service;
+package com.example.schedulemanagement.Service.schedule;
 
-import com.example.schedulemanagement.dto.ScheduleRequestDto;
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleRequestDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleResponseDto;
 import java.util.List;
 
 public interface ScheduleService {

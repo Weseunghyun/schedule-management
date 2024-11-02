@@ -1,9 +1,9 @@
-package com.example.schedulemanagement.Service;
+package com.example.schedulemanagement.Service.schedule;
 
-import com.example.schedulemanagement.dto.ScheduleRequestDto;
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleRequestDto;
+import com.example.schedulemanagement.dto.schedule.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
-import com.example.schedulemanagement.repository.ScheduleRepository;
+import com.example.schedulemanagement.repository.schedule.ScheduleRepository;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
